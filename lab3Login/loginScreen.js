@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     // Xử lý đăng nhập ở đây
-    onLogin(email, password);
+    onLogin(username, password);
   };
 
   return (
@@ -18,10 +18,10 @@ const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="Username"
           placeholderTextColor="#ccc"
-          value={email}
-          onChangeText={setEmail}
+          value={username}
+          onChangeText={setUsername}
         />
         <TextInput
           style={styles.input}

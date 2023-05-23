@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import LoginScreen from './loginScreen';
 
 const App = () => {
-  const handleLogin = (email, password) => {
+  const handleLogin = (username, password) => {
     // Xử lý đăng nhập ở đây
-    console.log('Email:', email);
+    console.log('Username:', username);
     console.log('Password:', password);
   };
 
