@@ -12,11 +12,8 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My App</Text>
-      <LoginScreen
-        logoText="Welcome to My App"
-        loginButtonText="Sign In"
-        onLogin={handleLogin}
-      />
+      <LoginScreen logoText="My Logo" loginButtonText="Login" onLogin={handleLogin} />
+
     </View>
   );
 };

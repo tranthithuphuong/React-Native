@@ -1,14 +1,73 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 
 const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [data, setData] = useState([]);
 
-  const handleLogin = () => {
-    // Xử lý đăng nhập ở đây
-    onLogin(username, password);
+  const handleLogin = async() => {
+    // Kiểm tra dữ liệu đầu vào
+    if (!username || !password) {
+      Alert.alert('Lỗi', 'Vui lòng nhập tên người dùng và mật khẩu.');
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert('Lỗi', 'Mật khẩu phải có ít nhất 6 kí tự.');
+      return;
+    }
+
+    await fetch('https://632c7f3e1aabd837399d7b69.mockapi.io/friend')
+      .then(response => response.json())
+      .then(responseData => {
+        // Cập nhật mảng dữ liệu
+        setData(responseData);
+        console.log(responseData);
+      })
+      .catch(error => {
+        // Xử lý lỗi trong quá trình gọi API
+        console.error(error);
+      });
+
+      let isLoggedIn = false;
+
+      for (let i = 0; i < data.length; i++) {
+        const account = data[i];
+        if (account.username === username && account.password === password) {
+          isLoggedIn = true;
+          break;
+        }
+      }
+    
+      if (isLoggedIn) {
+        Alert.alert('Thành công', 'Đăng nhập thành công!');
+      } else {
+        Alert.alert('Lỗi', 'Tên người dùng hoặc mật khẩu không đúng.');
+      }
   };
+
+  const btnLogin = async() => {
+    
+      let isLoggedIn = false;
+
+      for (let i = 0; i < data.length; i++) {
+        const account = data[i];
+        if (account.username === username && account.password === password) {
+          isLoggedIn = true;
+          break;
+        }
+      }
+    
+      if (isLoggedIn) {
+        Alert.alert('Thành công', 'Đăng nhập thành công!');
+      } else {
+        Alert.alert('Lỗi', 'Tên người dùng hoặc mật khẩu không đúng.');
+      }
+  };
+
+  
+
 
   return (
     <View style={styles.container}>
