@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 
 const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
@@ -6,7 +6,22 @@ const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
   const [password, setPassword] = useState('');
   const [data, setData] = useState([]);
 
-  const handleLogin = async() => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://632c7f3e1aabd837399d7b69.mockapi.io/friend');
+      const responseData = await response.json();
+      setData(responseData);
+      console.log(responseData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLogin = () => {
     // Kiểm tra dữ liệu đầu vào
     if (!username || !password) {
       Alert.alert('Lỗi', 'Vui lòng nhập tên người dùng và mật khẩu.');
@@ -18,56 +33,22 @@ const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
       return;
     }
 
-    await fetch('https://632c7f3e1aabd837399d7b69.mockapi.io/friend')
-      .then(response => response.json())
-      .then(responseData => {
-        // Cập nhật mảng dữ liệu
-        setData(responseData);
-        console.log(responseData);
-      })
-      .catch(error => {
-        // Xử lý lỗi trong quá trình gọi API
-        console.error(error);
-      });
+    let isLoggedIn = false;
 
-      let isLoggedIn = false;
+    for (let i = 0; i < data.length; i++) {
+      const account = data[i];
+      if (account.name === username && account.password === password) {
+        isLoggedIn = true;
+        break;
+      }
+    }
 
-      for (let i = 0; i < data.length; i++) {
-        const account = data[i];
-        if (account.username === username && account.password === password) {
-          isLoggedIn = true;
-          break;
-        }
-      }
-    
-      if (isLoggedIn) {
-        Alert.alert('Thành công', 'Đăng nhập thành công!');
-      } else {
-        Alert.alert('Lỗi', 'Tên người dùng hoặc mật khẩu không đúng.');
-      }
+    if (isLoggedIn) {
+      Alert.alert('Thành công', 'Đăng nhập thành công!');
+    } else {
+      Alert.alert('Lỗi', 'Tên người dùng hoặc mật khẩu không đúng.');
+    }
   };
-
-  const btnLogin = async() => {
-    
-      let isLoggedIn = false;
-
-      for (let i = 0; i < data.length; i++) {
-        const account = data[i];
-        if (account.username === username && account.password === password) {
-          isLoggedIn = true;
-          break;
-        }
-      }
-    
-      if (isLoggedIn) {
-        Alert.alert('Thành công', 'Đăng nhập thành công!');
-      } else {
-        Alert.alert('Lỗi', 'Tên người dùng hoặc mật khẩu không đúng.');
-      }
-  };
-
-  
-
 
   return (
     <View style={styles.container}>
