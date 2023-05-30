@@ -1,10 +1,15 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 
 const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [data, setData] = useState([]);
+  const navigation = useNavigation();
+
+
 
   useEffect(() => {
     fetchData();
@@ -22,6 +27,9 @@ const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
   };
 
   const handleLogin = () => {
+
+
+
     // Kiểm tra dữ liệu đầu vào
     if (!username || !password) {
       Alert.alert('Lỗi', 'Vui lòng nhập tên người dùng và mật khẩu.');
@@ -33,22 +41,20 @@ const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
       return;
     }
 
-    let isLoggedIn = false;
-
-    for (let i = 0; i < data.length; i++) {
-      const account = data[i];
-      if (account.name === username && account.password === password) {
-        isLoggedIn = true;
-        break;
+    const account = data.find(acc => acc.name === username);
+    if (account) {
+      if (account.password === password) {
+        Alert.alert('Thành công', 'Đăng nhập thành công!');
+        navigation.navigate('TrangChu');
+      } else {
+        Alert.alert('Lỗi', 'Mật khẩu không đúng.');
       }
-    }
-
-    if (isLoggedIn) {
-      Alert.alert('Thành công', 'Đăng nhập thành công!');
     } else {
-      Alert.alert('Lỗi', 'Tên người dùng hoặc mật khẩu không đúng.');
+      Alert.alert('Lỗi', 'Tài khoản chưa tồn tại.');
     }
   };
+
+
 
   return (
     <View style={styles.container}>
