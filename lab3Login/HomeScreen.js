@@ -3,19 +3,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from "./loginScreen";
-import trangChu from "./trangChu";
+import ListStudent from "./listStudent";
 
 const Stack = createStackNavigator();
 
-function App() {
+function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={LoginScreen} />
-        <Stack.Screen name="TrangChu" component={trangChu} />
+        <Stack.Screen name="Đăng nhập" component={LoginScreen} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Danh sách sinh viên" component={ListStudent} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default App;
+export default Navigation;

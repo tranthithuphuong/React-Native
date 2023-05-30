@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert, Button } from 'react-native';
 
 
-const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
+const LoginScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [data, setData] = useState([]);
-  const navigation = useNavigation();
 
 
 
@@ -45,7 +43,7 @@ const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
     if (account) {
       if (account.password === password) {
         Alert.alert('Thành công', 'Đăng nhập thành công!');
-        navigation.navigate('TrangChu');
+        navigation.navigate('Danh sách sinh viên');
       } else {
         Alert.alert('Lỗi', 'Mật khẩu không đúng.');
       }
@@ -58,79 +56,66 @@ const LoginScreen = ({ logoText, loginButtonText, onLogin }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>{logoText}</Text>
-      </View>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          placeholderTextColor="#ccc"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#ccc"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>{loginButtonText}</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.title}>Đăng nhập</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Tên đăng nhập"
+        placeholderTextColor="#555555"
+        value={username}
+        onChangeText={setUsername}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Mật khẩu"
+        placeholderTextColor="#555555"
+        secureTextEntry={true}
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Đăng nhập</Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 40,
-    width: '100%'
+    backgroundColor: '#f2f2f2',
+    padding: 16,
   },
-  logoContainer: {
-    marginBottom: 30,
-  },
-  logoText: {
-    fontSize: 32,
+  title: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#007bff',
-  },
-  formContainer: {
-    width: '100%',
+    marginBottom: 16,
   },
   input: {
     width: '100%',
-    height: 50,
+    height: 40,
+    borderColor: '#cccccc',
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    marginBottom: 20,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#333',
+    borderRadius: 4,
+    marginBottom: 16,
+    paddingHorizontal: 8,
+    color: '#333333',
   },
-  loginButton: {
+  button: {
+    backgroundColor: '#ff6600',
     width: '100%',
-    height: 50,
-    backgroundColor: '#007bff',
-    borderRadius: 8,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 4,
   },
-  loginButtonText: {
-    fontSize: 18,
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
   },
 });
-
 export default LoginScreen;
