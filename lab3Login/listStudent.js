@@ -2,6 +2,11 @@ import React, { useState, useEffect} from 'react';
 import { View, Image, Text, StyleSheet, FlatList } from 'react-native';
 
 
+import maleAvatar from './assets/male.png';
+import femaleAvatar from './assets/female.png';
+
+
+
 const ListStudent = () => {
   
   const [data, setData] = useState([]);
@@ -26,10 +31,14 @@ const ListStudent = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
-      <Image source={{ uri: item.avatar }} style={styles.avatar} />
+      {item.Gender == "1" ? (
+      <Image source={maleAvatar} style={styles.avatar} />
+    ) : (
+      <Image source={femaleAvatar} style={styles.avatar} />
+    )}
       <View style={styles.textContainer}>
         <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.details}>{item.Gender == 1 ? "Male" : "Female"}</Text>
+        <Text style={styles.details}>{item.Gender == "1" ? "Male" : "Female"}</Text>
         <Text style={styles.details}>{item.email}</Text>
       </View>
     </View>
