@@ -21,7 +21,7 @@ const LoginScreen = ({ navigation }) => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://6475a8c5e607ba4797dc4582.mockapi.io/student/Account"
+        "https://6475a8c5e607ba4797dc4582.mockapi.io/student/Student"
       );
       const responseData = await response.json();
       setData(responseData);
@@ -69,12 +69,12 @@ const LoginScreen = ({ navigation }) => {
 
           navigation.reset({
             index: 0,
-            routes: [{ name: "Danh sách sinh viên" }],
+            routes: [{ name: "Danh sách sinh viên", params: { userAdmin: account}}],
           });
         } else {
           navigation.reset({
             index: 0,
-            routes: [{ name: "User" }],
+            routes: [{ name: "Cập nhật", params: { user: account } }],
           });
         }
         return;

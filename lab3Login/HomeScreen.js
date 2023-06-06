@@ -25,12 +25,12 @@ function Navigation() {
                   navigation.navigate("Đăng nhập");
                 }}
               >
-                <Text style={styles.headerButton}>Logout</Text>
+                <Text style={styles.headerButton}>Đăng xuất</Text>
               </TouchableOpacity>
             ),
           })}
         />
-        <Stack.Screen name="User" component={User} 
+        <Stack.Screen name="Cập nhật" component={User} 
           options={({navigation}) => ({
             headerLeft: () => null,
             headerRight: () => (
@@ -40,7 +40,7 @@ function Navigation() {
                   navigation.navigate("Đăng nhập");
                 }}
               >
-                <Text style={styles.headerButton}>Logout</Text>
+                <Text style={styles.headerButton}>Đăng xuất</Text>
               </TouchableOpacity>
             ),
           })}
@@ -51,8 +51,8 @@ function Navigation() {
 }
 const styles = StyleSheet.create({
   headerButton: {
-    marginRight: 16,
-    fontSize: 16,
+    margin: 7,
+    fontSize: 13.7,
     fontWeight: "bold",
     color: "red",
   },
