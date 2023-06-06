@@ -12,11 +12,11 @@ function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Đăng nhập" component={LoginScreen} 
+        <Stack.Screen name="Đăng nhập" component={LoginScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Danh sách sinh viên" component={ListStudent} 
-          options={({navigation}) => ({
+        <Stack.Screen name="Danh sách sinh viên" component={ListStudent}
+          options={({ navigation }) => ({
             headerLeft: () => null,
             headerRight: () => (
               <TouchableOpacity
@@ -30,8 +30,8 @@ function Navigation() {
             ),
           })}
         />
-        <Stack.Screen name="Cập nhật" component={User} 
-          options={({navigation}) => ({
+        <Stack.Screen name="Cập nhật" component={User}
+          options={({ navigation }) => ({
             headerLeft: () => null,
             headerRight: () => (
               <TouchableOpacity

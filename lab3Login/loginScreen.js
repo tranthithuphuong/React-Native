@@ -59,17 +59,9 @@ const LoginScreen = ({ navigation }) => {
       console.log(account);
       if (account.password === password) {
         if (account.role === "ADMIN") {
-          // Phương thức navigation.reset() được sử dụng để thiết lập lại stack của navigator và chuyển hướng đến một màn hình cụ thể. Dưới đây là giải thích ngắn về các thuộc tính được sử dụng trong phương thức navigation.reset():
-
-          // index: 0: Đặt chỉ mục hiện tại của stack thành 0, có nghĩa là chỉ có một route duy nhất trong stack sau khi reset. Chỉ mục được sử dụng để xác định màn hình hiện tại trong stack.
-
-          // routes: [{ name: "Danh sách sinh viên" }]: Thiết lập một mảng mới của các routes trong stack. Trong trường hợp này, chỉ có một route với tên là "Danh sách sinh viên".
-
-          // Khi gọi phương thức navigation.reset() với các thuộc tính trên, stack của navigator sẽ chỉ chứa một route duy nhất là "Danh sách sinh viên" và màn hình sẽ chuyển hướng ngay lập tức đến màn hình "Danh sách sinh viên".
-
           navigation.reset({
             index: 0,
-            routes: [{ name: "Danh sách sinh viên", params: { userAdmin: account}}],
+            routes: [{ name: "Danh sách sinh viên", params: { userAdmin: account } }],
           });
         } else {
           navigation.reset({
