@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import DatePicker from 'react-native-datepicker';
-import * as ImagePicker from 'expo-image-picker';
+import DatePicker from "react-native-datepicker";
+import * as ImagePicker from "expo-image-picker";
 
 import {
   View,
@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Image
+  Image,
 } from "react-native";
 
 const User = ({ route, navigation }) => {
@@ -35,18 +35,16 @@ const User = ({ route, navigation }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Update success:", data);
-        // Xử lý sau khi cập nhật thành công
       })
       .catch((error) => {
         console.error("Update error:", error);
-        // Xử lý khi gặp lỗi
       });
   };
 
   const handleSelectImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Permission to access the media library is required!');
+    if (status !== "granted") {
+      alert("Permission to access the media library is required!");
       return;
     }
 
@@ -106,7 +104,7 @@ const User = ({ route, navigation }) => {
       phoneNumber: phoneNumber,
       address: address,
       dateOfBirth: dateOfBirth,
-      avatar: selectedImage,
+      // avatar: selectedImage,
     };
 
     try {
@@ -121,13 +119,13 @@ const User = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.imageContainer} onPress={handleSelectImage}>
+      {/* <TouchableOpacity style={styles.imageContainer} onPress={handleSelectImage}>
         {selectedImage ? (
           <Image source={{ uri: selectedImage }} style={styles.image} />
         ) : (
           <Text style={styles.imagePlaceholder}>Select Image</Text>
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TextInput
         style={styles.input}
         placeholder="Name"
@@ -144,12 +142,24 @@ const User = ({ route, navigation }) => {
         onChangeText={setPhoneNumber}
         keyboardType="phone-pad"
       />
-      {errorMessages.includes("Vui lòng nhập số điện thoại.") && (
+      {/* {errorMessages.includes("Vui lòng nhập số điện thoại.") && (
         <Text style={styles.errorMessage}>Vui lòng nhập số điện thoại.</Text>
       )}
       {errorMessages.includes("Số điện thoại không đúng định dạng.") && (
         <Text style={styles.errorMessage}>Số điện thoại không đúng định dạng.</Text>
-      )}
+      )} */}
+      {phoneNumber === "" &&
+        errorMessages.includes("Vui lòng nhập số điện thoại.") && (
+          <Text style={styles.errorMessage}>Vui lòng nhập số điện thoại.</Text>
+        )}
+      {
+      !phoneNumber === "" &&
+        errorMessages.includes("Số điện thoại không đúng định dạng.") && (
+          <Text style={styles.errorMessage}>
+            Số điện thoại không đúng định dạng.
+          </Text>
+        )}
+
       <TextInput
         style={styles.input}
         placeholder="Address"
@@ -171,14 +181,14 @@ const User = ({ route, navigation }) => {
         cancelBtnText="Cancel"
         customStyles={{
           dateIcon: {
-            position: 'absolute',
+            position: "absolute",
             left: 0,
             top: 4,
-            marginLeft: 0
+            marginLeft: 0,
           },
           dateInput: {
-            marginLeft: 36
-          }
+            marginLeft: 36,
+          },
         }}
         onDateChange={(date) => setDateOfBirth(date)}
       />
@@ -230,7 +240,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     color: "red",
-    marginBottom: 8, 
+    marginBottom: 8,
     textAlign: "left",
   },
   datePickerButton: {

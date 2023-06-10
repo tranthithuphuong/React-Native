@@ -12,35 +12,57 @@ function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Đăng nhập" component={LoginScreen}
+        <Stack.Screen
+          name="Đăng nhập"
+          component={LoginScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Danh sách sinh viên" component={ListStudent}
+        <Stack.Screen
+          name="Danh sách sinh viên"
+          component={ListStudent}
           options={({ navigation }) => ({
-            headerLeft: () => null,
-            headerRight: () => (
+            title: "List student",
+            headerLeft: () => (
               <TouchableOpacity
                 onPress={() => {
-                  // Xử lý sự kiện logout
                   navigation.navigate("Đăng nhập");
                 }}
               >
-                <Text style={styles.headerButton}>Đăng xuất</Text>
+                <Text style={styles.headerButtonLeft}>Login</Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Đăng nhập");
+                }}
+              >
+                <Text style={styles.headerButton}>Logout</Text>
               </TouchableOpacity>
             ),
           })}
         />
-        <Stack.Screen name="Cập nhật" component={User}
+        <Stack.Screen
+          name="Cập nhật"
+          component={User}
           options={({ navigation }) => ({
-            headerLeft: () => null,
-            headerRight: () => (
+            title: "Update",
+            headerLeft: () => (
               <TouchableOpacity
                 onPress={() => {
-                  // Xử lý sự kiện logout
                   navigation.navigate("Đăng nhập");
                 }}
               >
-                <Text style={styles.headerButton}>Đăng xuất</Text>
+                <Text style={styles.headerButtonLeft}>Login</Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Đăng nhập");
+                }}
+              >
+                <Text style={styles.headerButton}>Logout</Text>
               </TouchableOpacity>
             ),
           })}
@@ -49,6 +71,7 @@ function Navigation() {
     </NavigationContainer>
   );
 }
+
 const styles = StyleSheet.create({
   headerButton: {
     margin: 7,
@@ -56,5 +79,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "red",
   },
+  headerButtonLeft: {
+    margin: 10,
+    fontSize: 15,
+    // fontWeight: "bold",
+    color: "blue",
+  },
 });
+
 export default Navigation;

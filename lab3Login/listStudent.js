@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Image, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 
 const ListStudent = ({ route, navigation }) => {
   const { userAdmin } = route.params;
@@ -24,16 +24,65 @@ const ListStudent = ({ route, navigation }) => {
     }
   };
 
+  const deleteStudent = async (id) => {
+    try {
+      const response = await fetch(
+        `https://6475a8c5e607ba4797dc4582.mockapi.io/student/Student/${id}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      if (response.ok) {
+        fetchData();
+      } else {
+        console.error('Không xóa được sinh viên');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const confirmDeleteStudent = (id) => {
+    Alert.alert(
+      'Xác nhận xoá',
+      'Bạn có chắc chắn muốn xoá sinh viên này?',
+      [
+        {
+          text: 'Hủy',
+          style: 'cancel',
+        },
+        {
+          text: 'Xoá',
+          onPress: () => deleteStudent(id),
+          style: 'destructive',
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const renderItem = ({ item }) => {
     return (
       <View style={styles.itemContainer}>
-        <Image source={{ uri: item.avatar }} style={styles.avatar} />
+        {item.Gender === 1 ? (
+          <Image source={require('./assets/male.png')} style={styles.avatar} />
+        ) : (
+          <Image source={require('./assets/female.png')} style={styles.avatar} />
+        )}
         <View style={styles.textContainer}>
+
           <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.details}>{item.Gender === 1 ? "Male" : "Female"}</Text>
           <Text style={styles.details}>Số điện thoại: {item.phoneNumber}</Text>
           <Text style={styles.details}>Địa chỉ: {item.address}</Text>
           <Text style={styles.details}>Ngày sinh: {item.dateOfBirth}</Text>
         </View>
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={() => confirmDeleteStudent(item.id)}
+        >
+          <Image source={require('./assets/delete.png')} style={styles.image} />
+        </TouchableOpacity>
       </View>
     );
   };
@@ -44,12 +93,12 @@ const ListStudent = ({ route, navigation }) => {
         style={styles.updateButton}
         onPress={() => navigation.navigate('Cập nhật', { user: userAdmin })}
       >
-        <Text style={styles.updateButtonText}>Cập nhật</Text>
+        <Text style={styles.updateButtonText}>Update</Text>
       </TouchableOpacity>
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
     </View>
   );
@@ -100,6 +149,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  image: {
+    width: 32,
+    height: 32,
+  },
 });
-
 export default ListStudent;
