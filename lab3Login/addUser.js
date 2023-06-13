@@ -9,33 +9,40 @@ import {
   Text,
   StyleSheet,
   Image,
+  Picker
 } from "react-native";
 
-const User = ({ route, navigation }) => {
-  const { user } = route.params;
+const Add = ({ route, navigation }) => {
 
-  const [name, setName] = useState(user.name);
-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
-  const [address, setAddress] = useState(user.address);
-  const [dateOfBirth, setDateOfBirth] = useState(user.dateOfBirth);
-  const [selectedImage, setSelectedImage] = useState(user.avatar);
+    const { user } = route.params;
+
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
   const [errorMessages, setErrorMessages] = useState([]);
+  const [gender, setGender] = useState("");
 
-  const updateStudent = (studentId, updatedData) => {
+  const addStudent = (student) => {
     fetch(
-      `https://6475a8c5e607ba4797dc4582.mockapi.io/student/Student/${studentId}`,
+      "https://6475a8c5e607ba4797dc4582.mockapi.io/student/Student/",
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify(student),
       }
     )
       .then((response) => response.json())
       .then((data) => {
         console.log("Update success:", data);
-      })
+        navigation.reset({
+            index: 0,
+            routes: [{ name: "Danh sách sinh viên", params: { userAdmin: user}}],
+          });
+    })
       .catch((error) => {
         console.error("Update error:", error);
       });
@@ -60,10 +67,10 @@ const User = ({ route, navigation }) => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     let errors = [];
 
-    // Kiểm tra tất cả các trường không rỗng
+    // Check if all fields are not empty
     if (name === "") {
       errors.push("Vui lòng nhập tên.");
     }
@@ -78,6 +85,10 @@ const User = ({ route, navigation }) => {
 
     if (dateOfBirth === "") {
       errors.push("Vui lòng chọn ngày sinh.");
+    }
+
+    if(gender === ""){
+        errors.push("Vui lòng nhập giới tính 1 là nam.")
     }
 
     if (selectedImage === "") {
@@ -99,22 +110,19 @@ const User = ({ route, navigation }) => {
       return;
     }
 
-    const updatedData = {
+    const student = {
       name: name,
       phoneNumber: phoneNumber,
       address: address,
       dateOfBirth: dateOfBirth,
       avatar: selectedImage,
+      role: "user",
+      Gender: gender,
+      password: "12345678"
+
     };
 
-    try {
-      await updateStudent(user.id, updatedData);
-      alert("Cập nhật thành công cần tài khoản admin để xem");
-      navigation.navigate("Đăng nhập");
-    } catch (error) {
-      console.error("Update error:", error);
-      // Xử lý khi gặp lỗi
-    }
+    addStudent(student);
   };
 
   return (
@@ -137,29 +145,30 @@ const User = ({ route, navigation }) => {
       )}
       <TextInput
         style={styles.input}
+        placeholder="Gender"
+        value={gender}
+        onChangeText={setGender}
+      />
+      {errorMessages.includes("Vui lòng nhập giới tính 1 là nam.") && (
+        <Text style={styles.errorMessage}>Vui lòng nhập giới tính ví dụ: 1 là nam.</Text>
+      )}
+      <TextInput
+        style={styles.input}
         placeholder="Phone Number"
         value={phoneNumber}
         onChangeText={setPhoneNumber}
         keyboardType="phone-pad"
       />
-      {/* {errorMessages.includes("Vui lòng nhập số điện thoại.") && (
-        <Text style={styles.errorMessage}>Vui lòng nhập số điện thoại.</Text>
-      )}
-      {errorMessages.includes("Số điện thoại không đúng định dạng.") && (
-        <Text style={styles.errorMessage}>Số điện thoại không đúng định dạng.</Text>
-      )} */}
       {phoneNumber === "" &&
         errorMessages.includes("Vui lòng nhập số điện thoại.") && (
           <Text style={styles.errorMessage}>Vui lòng nhập số điện thoại.</Text>
         )}
-      {
-      !phoneNumber === "" &&
+      {!phoneNumber === "" &&
         errorMessages.includes("Số điện thoại không đúng định dạng.") && (
           <Text style={styles.errorMessage}>
             Số điện thoại không đúng định dạng.
           </Text>
         )}
-
       <TextInput
         style={styles.input}
         placeholder="Address"
@@ -267,4 +276,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default User;
+export default Add;

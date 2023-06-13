@@ -8,7 +8,6 @@ const ListStudent = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchData();
-    console.log(data);
   }, []);
 
   const fetchData = async () => {
@@ -64,11 +63,12 @@ const ListStudent = ({ route, navigation }) => {
   const renderItem = ({ item }) => {
     return (
       <View style={styles.itemContainer}>
-        {item.Gender === 1 ? (
+        {/* {item.Gender === 1 ? (
           <Image source={require('./assets/male.png')} style={styles.avatar} />
         ) : (
           <Image source={require('./assets/female.png')} style={styles.avatar} />
-        )}
+        )} */}
+        <Image source={{uri: item.avatar}} style={styles.avatar} />
         <View style={styles.textContainer}>
 
           <Text style={styles.name}>{item.name}</Text>
@@ -89,27 +89,29 @@ const ListStudent = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.updateButton}
-        onPress={() => navigation.navigate('Cập nhật', { user: userAdmin })}
-      >
-        <Text style={styles.updateButtonText}>Update</Text>
-      </TouchableOpacity>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </View>
+    <FlatList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+    />
+    <TouchableOpacity
+      style={[styles.actionButton, styles.addButton]}
+      onPress={() => navigation.navigate('Thêm nhân viên', { user: userAdmin })}
+    >
+      <Text style={styles.actionButtonTextAdd}>+</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={[styles.actionButtonUpdate, styles.updateButton]}
+      onPress={() => navigation.navigate('Cập nhật', { user: userAdmin })}
+    >
+      <Image source={require('./assets/writing.png')} style={styles.actionButtonImg}/>
+    </TouchableOpacity>
+  </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#f2f2f2',
-  },
+  
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -136,22 +138,52 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#888888',
   },
-  updateButton: {
-    backgroundColor: '#ff6600',
-    borderRadius: 4,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignSelf: 'flex-start',
-    marginBottom: 16,
-  },
-  updateButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+
   image: {
     width: 32,
     height: 32,
   },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#f2f2f2',
+    justifyContent: 'flex-end',
+  },
+  //...
+  actionButton: {
+    position: 'absolute',
+    borderRadius: 100,
+    paddingVertical: 1,
+    paddingHorizontal: 11,
+  },
+  actionButtonUpdate: {
+    position: 'absolute',
+    borderRadius: 100,
+    // paddingVertical: 5,
+    // paddingHorizontal: 15,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 2,
+  },
+  addButton: {
+    backgroundColor: '#ff6600',
+    left: 16,
+    bottom: 20,
+  },
+  updateButton: {
+    backgroundColor: '#007AFF',
+    left: 16,
+    bottom: 80,
+  },
+  actionButtonImg: {
+   height: 30,
+   width: 30,
+  },
+  actionButtonTextAdd : {
+    color: '#ffffff',
+    fontSize: 40,
+    fontWeight: 'bold',
+  }
 });
 export default ListStudent;

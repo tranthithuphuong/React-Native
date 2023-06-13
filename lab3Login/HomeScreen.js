@@ -5,6 +5,7 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import LoginScreen from "./loginScreen";
 import ListStudent from "./listStudent";
 import User from './roleIsUser';
+import Add from './addUser';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,11 @@ function Navigation() {
         <Stack.Screen
           name="Đăng nhập"
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Thêm nhân viên"
+          component={Add}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -68,6 +74,7 @@ function Navigation() {
           })}
         />
       </Stack.Navigator>
+
     </NavigationContainer>
   );
 }
